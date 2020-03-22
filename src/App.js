@@ -1,26 +1,39 @@
 import React from 'react';
-import logo from './logo.svg';
+import Cards from './Components/Cards'
+import { ArrowBackIosIcon, ArrowForwardIosIcon, CachedRoundedIcon } from '@material-ui/icons';
 import './App.css';
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state =
+    {
+      isLoading: false,
+      jokesList: []
+    };
+  }
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  componentDidMount() {
+    this.setState({ loading: true })
+    fetch(" https://official-joke-api.appspot.com/jokes/programming/ten")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          isLoading: false,
+          jokesList: data
+        })
+      })
+  }
+
+  render() {
+    let jokes = this.state.jokesList.map(joke => {
+      return <Cards key={joke.id} jokesList={joke} />;
+    });
+    return (
+      <React.Fragment>
+        <div>{jokes}</div>
+      </React.Fragment>
+    )
+  };
 }
 
 export default App;
