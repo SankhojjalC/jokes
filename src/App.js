@@ -30,7 +30,7 @@ class App extends React.Component {
     });
     return (
       <React.Fragment>
-        <div>{jokes}</div>
+        <div className="cards">{jokes}</div>
       </React.Fragment>
     )
   };
