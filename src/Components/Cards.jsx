@@ -1,14 +1,14 @@
 import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardActions,
   CardContent,
   Button,
   Typography,
-  makeStyles
 } from "@material-ui/core";
 
-const useStyles = makeStyles({
+const styles = {
   root: {
     minWidth: 200,
     maxWidth: 200,
@@ -18,30 +18,46 @@ const useStyles = makeStyles({
     fontSize: 14
   },
   pos: {
-    marginBottom: 12
+    marginBottom: 150
   }
-});
-
-let Cards = props => {
-  const classes = useStyles();
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <div>
-          <Typography variant="h5" component="h2">
-            {props.jokesList.setup}
-          </Typography>
-        </div>
-        <div>
-          <Typography variant="body2" component="p" />
-          {props.jokesList.punchline}
-        </div>
-      </CardContent>
-      {/* <CardActions>
-          <Button size="small">Learn More</Button>
-        </CardActions> */}
-    </Card>
-  );
 };
 
-export default Cards;
+
+class Cards extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      toDisplay: false
+    }
+  }
+
+
+  handleClick = () => {
+    this.setState({ toDisplay: !this.state.toDisplay })
+  }
+  render() {
+    return (
+      <Card className={this.props.classes.root} >
+        <CardContent>
+          <div>
+            <Typography variant="h5" component="h2">
+              {this.props.jokesList.setup}
+            </Typography>
+          </div>
+
+          {this.state.toDisplay === true ?
+            <div>
+              <Typography variant="body2" component="p" />
+              {this.props.jokesList.punchline}
+            </div> : null}
+
+        </CardContent>
+        <CardActions className={styles.pos.marginBottom}>
+          <Button size="medium" onClick={this.handleClick}>Learn More</Button>
+        </CardActions>
+      </Card>
+    );
+  }
+};
+
+export default withStyles(styles)(Cards);
